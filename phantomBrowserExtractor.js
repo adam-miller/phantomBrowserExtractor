@@ -117,15 +117,15 @@ var page = require('webpage').create(),
 
 
 
-page.onResourceRequested = function (request){
-    if(request.url.indexOf('data')<0){
+page.onResourceRequested = function (requestData,request){
+    if(requestData.url.indexOf('data')<0){
 	if(debug){
-	    console.error(request.method+ ' ' + request.url);
+	    console.error(requestData.method+ ' ' + requestData.url);
 	    if(verbose)
-		console.error(JSON.stringify(request,undefined,4));
+		console.error(JSON.stringify(requestData,undefined,4));
 	}
 	
-	logObject({"tagName":"XMLHttpRequest","url":request.url});
+	logObject({"tagName":"XMLHttpRequest","url":requestData.url});
     }
     if ((/http:\/\/.+?((\.google-analytics\.com)|(\.getclicky\.com)|(\.statcounter\.com)|(\.mxpnl\.com)|(\.mixpanel\.com)|(\.foxmetrics\.com)|(\.kissmetrics\.com)|(\.woopra\.com)|(\.reinvigorate\.net)|(\.webtrendslive\.com)|(\.webtrends\.com)|(webtrends\.js)|(\.chartbeat\.com)|(owa\.tracker-combined-min\.js)|(\/mint\/\?js)|(piwik\.js)|(chartbeat\.js))|(\.(css)|(jpg)|(png)|(gif))/gi).test(requestData['url']) || requestData['Content-Type'] == 'text/css') {
 	if(debug){
