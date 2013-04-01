@@ -118,15 +118,21 @@ var page = require('webpage').create(),
 
 
 page.onResourceRequested = function (request){
-	if(request.url.indexOf('data')<0){
-		if(debug){
-			console.error(request.method+ ' ' + request.url);
-			if(verbose)
-				console.error(JSON.stringify(request,undefined,4));
-		}
-			
-		logObject({"tagName":"XMLHttpRequest","url":request.url});
+    if(request.url.indexOf('data')<0){
+	if(debug){
+	    console.error(request.method+ ' ' + request.url);
+	    if(verbose)
+		console.error(JSON.stringify(request,undefined,4));
 	}
+	
+	logObject({"tagName":"XMLHttpRequest","url":request.url});
+    }
+    if ((/http:\/\/.+?((\.google-analytics\.com)|(\.getclicky\.com)|(\.statcounter\.com)|(\.mxpnl\.com)|(\.mixpanel\.com)|(\.foxmetrics\.com)|(\.kissmetrics\.com)|(\.woopra\.com)|(\.reinvigorate\.net)|(\.webtrendslive\.com)|(\.webtrends\.com)|(webtrends\.js)|(\.chartbeat\.com)|(owa\.tracker-combined-min\.js)|(\/mint\/\?js)|(piwik\.js)|(chartbeat\.js))|(\.(css)|(jpg)|(png)|(gif))/gi).test(requestData['url']) || requestData['Content-Type'] == 'text/css') {
+	if(debug){
+	    console.error('The url of the request is matching. Aborting: ' + requestData['url']);
+	}
+	request.abort();
+    }
 };
 page.onResourceReceived = function (response) {
 	if(debug)
