@@ -170,14 +170,16 @@ page.open(srcUrl, function (status) {
     } else {
         t = Date.now() - t;
 		
-		page.evaluate(function(){
-			var a = new Image();
-		});
-
+	page.evaluate(function(){
+		var a = new Image();
+	    });
+	window.setTimeout(function () {
+		phantom.exit();
+	    }, 200);
         if(debug)
         	console.error('Loading time ' + t + ' msec');
     }
-    phantom.exit();
+
 });
 
 function printObj(obj){
